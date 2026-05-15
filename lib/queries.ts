@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import type { Viewing, Apartment, Photo, ApartmentWithViewing, ViewingStatus } from '@/types'
+import type { Viewing as PrismaViewing, Apartment as PrismaApartment, Photo as PrismaPhoto } from '@prisma/client'
 
 function toDateStr(d: Date): string {
   return d.toISOString().split('T')[0]
@@ -9,7 +10,7 @@ function toISOStr(d: Date): string {
   return d.toISOString()
 }
 
-function serializeViewing(v: any, apartmentCount?: number): Viewing {
+function serializeViewing(v: PrismaViewing & { _count?: { apartments: number } }, apartmentCount?: number): Viewing {
   return {
     id: v.id,
     title: v.title,
@@ -20,11 +21,11 @@ function serializeViewing(v: any, apartmentCount?: number): Viewing {
     notes: v.notes ?? null,
     status: v.status as ViewingStatus,
     created_at: toISOStr(v.created_at),
-    apartment_count: apartmentCount ?? v._count?.apartments,
+    apartment_count: apartmentCount ?? v._count?.apartments ?? 0,
   }
 }
 
-function serializeApartment(a: any): Apartment {
+function serializeApartment(a: PrismaApartment & { photos?: PrismaPhoto[] }): Apartment {
   return {
     id: a.id,
     viewing_id: a.viewing_id,
@@ -37,11 +38,11 @@ function serializeApartment(a: any): Apartment {
     rating: a.rating ?? null,
     notes: a.notes ?? null,
     created_at: toISOStr(a.created_at),
-    photos: a.photos?.map(serializePhoto),
+    photos: a.photos?.map(serializePhoto) ?? [],
   }
 }
 
-function serializePhoto(p: any): Photo {
+function serializePhoto(p: PrismaPhoto): Photo {
   return {
     id: p.id,
     apartment_id: p.apartment_id,
@@ -87,7 +88,7 @@ export async function updateViewing(
   id: string,
   data: Partial<{ title: string; date: string; start_time: string; end_time: string | null; address: string; notes: string | null; status: ViewingStatus }>
 ): Promise<Viewing> {
-  const updateData: any = { ...data }
+  const updateData: Record<string, unknown> = { ...data }
   if (data.date) updateData.date = new Date(data.date)
   const v = await prisma.viewing.update({ where: { id }, data: updateData })
   return serializeViewing(v)
@@ -146,6 +147,7 @@ export async function deletePhoto(id: string): Promise<void> {
 export async function autoCompletePassedViewings(): Promise<void> {
   await prisma.viewing.updateMany({
     where: { status: 'upcoming', date: { lt: new Date() } },
+    data: { status: 'completed' },
   })
 }
 

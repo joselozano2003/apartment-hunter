@@ -162,9 +162,33 @@ describe('deletePhoto', () => {
 })
 
 describe('autoCompletePassedViewings', () => {
-  it('runs updateMany without throwing', async () => {
-    prismaMock.viewing.updateMany.mockResolvedValueOnce({ count: 0 })
-    await expect(autoCompletePassedViewings()).resolves.toBeUndefined()
+  it('updates upcoming viewings past their date to completed', async () => {
+    prismaMock.viewing.updateMany.mockResolvedValueOnce({ count: 1 })
+    await autoCompletePassedViewings()
+    expect(prismaMock.viewing.updateMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: { status: 'completed' },
+        where: expect.objectContaining({ status: 'upcoming' }),
+      })
+    )
+  })
+})
+
+describe('getApartmentsForViewing', () => {
+  it('returns apartments with serialized dates', async () => {
+    prismaMock.apartment.findMany.mockResolvedValueOnce([mockApartment()] as any)
+    const result = await getApartmentsForViewing('v1')
+    expect(result[0].id).toBe('a1')
+    expect(typeof result[0].created_at).toBe('string')
+  })
+})
+
+describe('getPhotosForApartment', () => {
+  it('returns photos with serialized dates', async () => {
+    prismaMock.photo.findMany.mockResolvedValueOnce([mockPhoto()] as any)
+    const result = await getPhotosForApartment('a1')
+    expect(result[0].blob_url).toBe('https://blob.vercel.com/photo.jpg')
+    expect(typeof result[0].created_at).toBe('string')
   })
 })
 
