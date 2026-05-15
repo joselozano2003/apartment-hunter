@@ -1,9 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import StarRating from './StarRating'
 import type { Apartment } from '@/types'
@@ -56,53 +54,95 @@ export default function ApartmentForm({ viewingId, apartment, onClose, onSaved }
     }
   }
 
+  const fieldClass = "border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl"
+
   return (
     <Sheet open onOpenChange={open => { if (!open) onClose() }}>
       <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto">
-        <SheetHeader>
-          <SheetTitle>{apartment ? 'Edit Apartment' : 'Add Apartment'}</SheetTitle>
+        <SheetHeader className="mb-5">
+          <SheetTitle className="text-lg font-bold text-[#222222]">
+            {apartment ? 'Edit Apartment' : 'Add Apartment'}
+          </SheetTitle>
         </SheetHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="unit-label">Unit label *</Label>
-            <Input id="unit-label" value={unitLabel} onChange={e => setUnitLabel(e.target.value)} placeholder="e.g. Unit 203, Floor 4" required />
+            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="unit-label">
+              Unit label *
+            </label>
+            <Input
+              id="unit-label"
+              value={unitLabel}
+              onChange={e => setUnitLabel(e.target.value)}
+              placeholder="e.g. Unit 203, Floor 4"
+              required
+              className={fieldClass}
+            />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="rent">Monthly rent ($)</Label>
-              <Input id="rent" type="number" value={rent} onChange={e => setRent(e.target.value)} placeholder="2500" />
+              <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="rent">
+                Monthly rent ($)
+              </label>
+              <Input id="rent" type="number" value={rent} onChange={e => setRent(e.target.value)} placeholder="2500" className={fieldClass} />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="sqft">Sqft</Label>
-              <Input id="sqft" type="number" value={sqft} onChange={e => setSqft(e.target.value)} placeholder="850" />
+              <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="sqft">
+                Sqft
+              </label>
+              <Input id="sqft" type="number" value={sqft} onChange={e => setSqft(e.target.value)} placeholder="850" className={fieldClass} />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="bedrooms">Bedrooms</Label>
-              <Input id="bedrooms" type="number" value={bedrooms} onChange={e => setBedrooms(e.target.value)} placeholder="2" />
+              <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="bedrooms">
+                Bedrooms
+              </label>
+              <Input id="bedrooms" type="number" value={bedrooms} onChange={e => setBedrooms(e.target.value)} placeholder="2" className={fieldClass} />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="bathrooms">Bathrooms</Label>
-              <Input id="bathrooms" type="number" step="0.5" value={bathrooms} onChange={e => setBathrooms(e.target.value)} placeholder="1" />
+              <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="bathrooms">
+                Bathrooms
+              </label>
+              <Input id="bathrooms" type="number" step="0.5" value={bathrooms} onChange={e => setBathrooms(e.target.value)} placeholder="1" className={fieldClass} />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="commute">Commute</Label>
-            <Input id="commute" value={commute} onChange={e => setCommute(e.target.value)} placeholder="15 min to office" />
+            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="commute">
+              Commute
+            </label>
+            <Input id="commute" value={commute} onChange={e => setCommute(e.target.value)} placeholder="15 min to office" className={fieldClass} />
           </div>
           <div className="space-y-1.5">
-            <Label>Rating</Label>
+            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide">Rating</label>
             <StarRating value={rating} onChange={setRating} />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="notes">Notes</Label>
-            <Textarea id="notes" value={notes} onChange={e => setNotes(e.target.value)} placeholder="Great natural light, quiet floor..." rows={3} />
+            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="notes">
+              Notes
+            </label>
+            <Textarea
+              id="notes"
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
+              placeholder="Great natural light, quiet floor..."
+              rows={3}
+              className={`${fieldClass} resize-none`}
+            />
           </div>
-          {error && <p className="text-destructive text-sm">{error}</p>}
-          <div className="flex gap-3 pt-2">
-            <Button type="button" variant="outline" className="flex-1" onClick={onClose}>Cancel</Button>
-            <Button type="submit" disabled={saving} className="flex-1 bg-indigo-600 hover:bg-indigo-700">
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <div className="flex gap-3 pt-1 pb-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 h-12 rounded-xl border border-[#DDDDDD] text-[#222222] font-semibold text-sm hover:border-[#222222] transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className="flex-1 h-12 rounded-xl bg-[#FF385C] hover:bg-[#E31C5F] text-white font-semibold text-sm transition-colors disabled:opacity-60"
+            >
               {saving ? 'Saving…' : apartment ? 'Save Changes' : 'Add Apartment'}
-            </Button>
+            </button>
           </div>
         </form>
       </SheetContent>

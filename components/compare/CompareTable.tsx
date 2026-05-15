@@ -42,26 +42,26 @@ export default function CompareTable({ apartments }: { apartments: ApartmentWith
     return (
       <TableHead
         onClick={() => handleSort(k)}
-        className={`cursor-pointer select-none text-right whitespace-nowrap ${
-          active ? 'text-indigo-600' : 'hover:text-gray-600'
+        className={`cursor-pointer select-none text-right whitespace-nowrap font-bold ${
+          active ? 'text-[#FF385C]' : 'text-[#717171] hover:text-[#222222]'
         }`}
       >
-        {label} {active ? (sortDir === 'asc' ? '↑' : '↓') : '↕'}
+        {label} {active ? (sortDir === 'asc' ? '↑' : '↓') : <span className="opacity-40">↕</span>}
       </TableHead>
     )
   }
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+    <div className="overflow-x-auto rounded-2xl border border-[#EBEBEB] shadow-sm bg-white">
       <Table>
         <TableHeader>
-          <TableRow className="bg-gray-50">
-            <TableHead>Unit</TableHead>
-            <TableHead>Viewing</TableHead>
+          <TableRow className="bg-[#F7F7F7] border-b border-[#EBEBEB]">
+            <TableHead className="font-bold text-[#222222]">Unit</TableHead>
+            <TableHead className="font-bold text-[#222222]">Viewing</TableHead>
             <SortHead label="Rent" k="monthly_rent" />
-            <TableHead className="text-center">Rooms</TableHead>
+            <TableHead className="text-center font-bold text-[#222222]">Rooms</TableHead>
             <SortHead label="Sqft" k="sqft" />
-            <TableHead>Commute</TableHead>
+            <TableHead className="font-bold text-[#222222]">Commute</TableHead>
             <SortHead label="Rating" k="rating" />
           </TableRow>
         </TableHeader>
@@ -71,34 +71,38 @@ export default function CompareTable({ apartments }: { apartments: ApartmentWith
             return (
               <TableRow
                 key={apt.id}
-                className={isTop ? 'bg-amber-50' : i % 2 === 0 ? '' : 'bg-gray-50/50'}
+                className={`border-b border-[#EBEBEB] last:border-0 ${isTop ? 'bg-[#FFF5F6]' : i % 2 === 0 ? 'bg-white' : 'bg-[#FAFAFA]'}`}
               >
-                <TableCell className="font-semibold">
+                <TableCell className="font-bold text-[#222222]">
                   <Link
                     href={`/viewings/${apt.viewing_id}/apartments/${apt.id}`}
-                    className="hover:text-indigo-600 hover:underline"
+                    className="hover:text-[#FF385C] transition-colors hover:underline"
                   >
                     {apt.unit_label}
+                    {isTop && <span className="ml-1.5 text-[10px] font-bold text-[#FF385C] bg-[#FFF0F2] rounded-full px-1.5 py-0.5">Top pick</span>}
                   </Link>
                 </TableCell>
                 <TableCell className="whitespace-nowrap">
-                  <div className="text-gray-800">{apt.viewing_title}</div>
-                  <div className="text-xs text-gray-400">{format(parseISO(apt.viewing_date), 'MMM d')}</div>
+                  <div className="text-[#222222] font-medium">{apt.viewing_title}</div>
+                  <div className="text-xs text-[#AAAAAA]">{format(parseISO(apt.viewing_date), 'MMM d')}</div>
                 </TableCell>
-                <TableCell className="text-right font-semibold text-indigo-700">
-                  {apt.monthly_rent ? `$${apt.monthly_rent.toLocaleString()}` : '—'}
+                <TableCell className="text-right font-bold text-[#222222]">
+                  {apt.monthly_rent ? `$${apt.monthly_rent.toLocaleString()}` : <span className="text-[#AAAAAA]">—</span>}
                 </TableCell>
-                <TableCell className="text-center text-gray-600">
-                  {apt.bedrooms ? `${apt.bedrooms}bd·${apt.bathrooms}ba` : '—'}
+                <TableCell className="text-center text-[#717171]">
+                  {apt.bedrooms ? `${apt.bedrooms}bd · ${apt.bathrooms}ba` : <span className="text-[#AAAAAA]">—</span>}
                 </TableCell>
-                <TableCell className="text-right text-gray-600">{apt.sqft ?? '—'}</TableCell>
-                <TableCell className="text-gray-600">{apt.commute_note ?? '—'}</TableCell>
+                <TableCell className="text-right text-[#717171]">{apt.sqft ?? <span className="text-[#AAAAAA]">—</span>}</TableCell>
+                <TableCell className="text-[#717171]">{apt.commute_note ?? <span className="text-[#AAAAAA]">—</span>}</TableCell>
                 <TableCell className="text-right">
                   {apt.rating ? (
-                    <span className="text-amber-400">
-                      {'★'.repeat(apt.rating)}{'☆'.repeat(5 - apt.rating)}
-                    </span>
-                  ) : '—'}
+                    <div className="flex items-center justify-end gap-0.5">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="#FF385C" stroke="none">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                      </svg>
+                      <span className="font-bold text-[#222222]">{apt.rating}</span>
+                    </div>
+                  ) : <span className="text-[#AAAAAA]">—</span>}
                 </TableCell>
               </TableRow>
             )

@@ -17,7 +17,7 @@
 ## What this project is
 
 <!-- PROJECT_SUMMARY -->
-Mobile-first apartment viewing tracker built with Next.js 15 App Router, Prisma v7 + Vercel Postgres (Neon), and Vercel Blob. Single user, no auth — tracks viewings on a weekly calendar, captures per-apartment photos/notes, and compares options in a sortable table. Full build completed 2026-05-15; deploy pending.
+Mobile-first apartment viewing tracker built with Next.js 15 App Router, Prisma v7 + Vercel Postgres (Neon), and Vercel Blob. Single user, no auth — tracks viewings on a weekly calendar, captures per-apartment photos/notes, and compares options in a sortable table. Fully built and deployed to Vercel as of 2026-05-15.
 <!-- /PROJECT_SUMMARY -->
 
 ---
@@ -70,6 +70,7 @@ Key files:
 - ViewportSeparateExport: Next.js 15 requires `export const viewport: Viewport` as a separate named export from `metadata`.
 - TestMockPrismaSingleton: Mock `@/lib/prisma` using `mockDeep<PrismaClient>()` from jest-mock-extended. Helper in `__tests__/helpers/prisma-mock.ts`.
 - ShadcnInitFlags: Always init with `--style default --base-color slate` — CLI defaults to `base-nova` which breaks the Radix UI API.
+- VercelBlobPublicStore: Always create the Blob store with public access. Private stores can't be converted; `lib/blob.ts` always passes `{ access: 'public' }` to `put()`.
 <!-- /PATTERNS -->
 
 ---
@@ -85,8 +86,7 @@ Key files:
 ## Open decisions
 
 <!-- OPEN_DECISIONS -->
-- Deploy: `vercel login` needed before `vercel deploy --prod --yes` can run
-- DB migration: `npx prisma migrate dev --name init` must be run once .env.local is populated
+*(none)*
 <!-- /OPEN_DECISIONS -->
 
 ---
@@ -98,6 +98,7 @@ Key files:
 - ADR-002: Prisma v7 adapter-pg runtime pattern — settled 2026-05-15
 - ADR-003: Server components as default, client islands for interactivity — settled 2026-05-15
 - ADR-004: shadcn/ui Default style + Slate base color — settled 2026-05-15
+- ADR-005: Vercel Blob store must be public (private stores can't convert; must recreate) — settled 2026-05-15
 <!-- /CLOSED_DECISIONS -->
 
 ---

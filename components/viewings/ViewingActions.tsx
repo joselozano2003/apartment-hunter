@@ -1,7 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
 import ViewingForm from '@/components/viewings/ViewingForm'
 import type { Viewing } from '@/types'
 
@@ -26,18 +25,27 @@ export default function ViewingActions({ viewing }: { viewing: Viewing }) {
 
   return (
     <>
-      <div className="flex gap-2 mt-3">
+      <div className="flex flex-wrap gap-2">
         {viewing.status !== 'completed' && (
-          <Button size="sm" variant="secondary" onClick={markCompleted}>
+          <button
+            onClick={markCompleted}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold bg-[#222222] text-white hover:bg-black transition-colors"
+          >
             Mark Complete ✓
-          </Button>
+          </button>
         )}
-        <Button size="sm" variant="outline" onClick={() => setShowEditForm(true)}>
+        <button
+          onClick={() => setShowEditForm(true)}
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold border border-[#DDDDDD] text-[#222222] bg-white hover:border-[#222222] transition-colors"
+        >
           Edit
-        </Button>
-        <Button size="sm" variant="destructive" onClick={handleDelete}>
+        </button>
+        <button
+          onClick={handleDelete}
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold border border-[#DDDDDD] text-[#717171] bg-white hover:border-red-300 hover:text-red-600 transition-colors"
+        >
           Delete
-        </Button>
+        </button>
       </div>
       {showEditForm && (
         <ViewingForm

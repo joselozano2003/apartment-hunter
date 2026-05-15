@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
 import ApartmentForm from '@/components/apartments/ApartmentForm'
 
 export default function AddApartmentButton({ viewingId }: { viewingId: string }) {
@@ -10,13 +9,12 @@ export default function AddApartmentButton({ viewingId }: { viewingId: string })
 
   return (
     <>
-      <Button
-        variant="outline"
-        className="w-full border-2 border-dashed border-indigo-200 text-indigo-500 hover:border-indigo-400 hover:bg-indigo-50 mt-2"
+      <button
         onClick={() => setShowForm(true)}
+        className="w-full mt-2 h-12 rounded-2xl border-2 border-dashed border-[#DDDDDD] text-[#AAAAAA] hover:border-[#FF385C] hover:text-[#FF385C] font-semibold text-sm transition-colors"
       >
         + Add Apartment
-      </Button>
+      </button>
       {showForm && (
         <ApartmentForm
           viewingId={viewingId}

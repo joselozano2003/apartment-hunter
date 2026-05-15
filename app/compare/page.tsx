@@ -8,10 +8,10 @@ export default async function ComparePage() {
 
   return (
     <div className="py-4">
-      <h1 className="text-xl font-bold text-gray-800 mb-4">Compare Apartments</h1>
+      <h1 className="text-xl font-bold text-[#222222] mb-4">Compare Apartments</h1>
 
       {apartments.length === 0 ? (
-        <p className="text-gray-400 text-sm text-center py-8">
+        <p className="text-[#AAAAAA] text-sm text-center py-8">
           No apartments yet — complete a viewing to see comparisons.
         </p>
       ) : (

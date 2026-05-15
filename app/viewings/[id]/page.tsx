@@ -21,17 +21,27 @@ export default async function ViewingDetailPage({ params }: { params: Promise<{ 
     <div className="py-4">
       <BackButton />
 
-      <div className="bg-indigo-600 text-white rounded-2xl p-5 mb-4">
-        <h1 className="text-xl font-bold">{viewing.title}</h1>
-        <p className="text-indigo-200 text-sm mt-1">
-          {format(parseISO(viewing.date), 'EEE, MMMM d')} · {viewing.start_time.slice(0, 5)}
-          {viewing.end_time ? ` – ${viewing.end_time.slice(0, 5)}` : ''}
-        </p>
-        <p className="text-indigo-100 text-sm mt-1">📍 {viewing.address}</p>
+      {/* Viewing header card */}
+      <div className="bg-white rounded-2xl border border-[#EBEBEB] shadow-sm p-5 mb-4">
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl font-bold text-[#222222] leading-tight">{viewing.title}</h1>
+            <p className="text-sm text-[#717171] mt-1">
+              {format(parseISO(viewing.date), 'EEE, MMMM d')} · {viewing.start_time.slice(0, 5)}
+              {viewing.end_time ? ` – ${viewing.end_time.slice(0, 5)}` : ''}
+            </p>
+            <p className="text-sm text-[#717171] mt-0.5">📍 {viewing.address}</p>
+          </div>
+          {viewing.status === 'completed' && (
+            <span className="shrink-0 text-xs font-semibold text-[#717171] bg-[#F7F7F7] border border-[#EBEBEB] rounded-full px-3 py-1">
+              Completed ✓
+            </span>
+          )}
+        </div>
         <ViewingActions viewing={viewing} />
       </div>
 
-      <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+      <h2 className="text-xs font-bold text-[#717171] uppercase tracking-widest mb-3">
         Apartments ({apartments.length})
       </h2>
 

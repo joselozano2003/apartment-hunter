@@ -1,9 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import type { Viewing } from '@/types'
 
@@ -57,78 +55,106 @@ export default function ViewingForm({ defaultDate, viewing, onClose, onSaved }: 
   return (
     <Sheet open onOpenChange={open => { if (!open) onClose() }}>
       <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto">
-        <SheetHeader>
-          <SheetTitle>{viewing ? 'Edit Viewing' : 'Add Viewing'}</SheetTitle>
+        <SheetHeader className="mb-5">
+          <SheetTitle className="text-lg font-bold text-[#222222]">
+            {viewing ? 'Edit Viewing' : 'Add Viewing'}
+          </SheetTitle>
         </SheetHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="title">Title (optional)</Label>
+            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="title">
+              Title (optional)
+            </label>
             <Input
               id="title"
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="e.g. Midtown Complex"
+              className="border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="date">Date *</Label>
+              <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="date">
+                Date *
+              </label>
               <Input
                 id="date"
                 type="date"
                 value={date}
                 onChange={e => setDate(e.target.value)}
                 required
+                className="border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl"
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="start-time">Start time *</Label>
+              <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="start-time">
+                Start time *
+              </label>
               <Input
                 id="start-time"
                 type="time"
                 value={startTime}
                 onChange={e => setStartTime(e.target.value)}
                 required
+                className="border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl"
               />
             </div>
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="end-time">End time (optional)</Label>
+            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="end-time">
+              End time (optional)
+            </label>
             <Input
               id="end-time"
               type="time"
               value={endTime}
               onChange={e => setEndTime(e.target.value)}
+              className="border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl"
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="address">Address *</Label>
+            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="address">
+              Address *
+            </label>
             <Input
               id="address"
               value={address}
               onChange={e => setAddress(e.target.value)}
               placeholder="123 Main St, New York, NY"
               required
+              className="border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl"
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="notes">Notes</Label>
+            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="notes">
+              Notes
+            </label>
             <Textarea
               id="notes"
               value={notes}
               onChange={e => setNotes(e.target.value)}
               placeholder="Bring ID, ask about parking..."
               rows={2}
+              className="border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl resize-none"
             />
           </div>
-          {error && <p className="text-destructive text-sm">{error}</p>}
-          <div className="flex gap-3 pt-2">
-            <Button type="button" variant="outline" className="flex-1" onClick={onClose}>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <div className="flex gap-3 pt-1 pb-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 h-12 rounded-xl border border-[#DDDDDD] text-[#222222] font-semibold text-sm hover:border-[#222222] transition-colors"
+            >
               Cancel
-            </Button>
-            <Button type="submit" disabled={saving} className="flex-1 bg-indigo-600 hover:bg-indigo-700">
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className="flex-1 h-12 rounded-xl bg-[#FF385C] hover:bg-[#E31C5F] text-white font-semibold text-sm transition-colors disabled:opacity-60"
+            >
               {saving ? 'Saving…' : viewing ? 'Save Changes' : 'Add Viewing'}
-            </Button>
+            </button>
           </div>
         </form>
       </SheetContent>
