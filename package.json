@@ -42,6 +42,7 @@
     "eslint-config-next": "16.2.6",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
+    "jest-mock-extended": "^4.0.1",
     "prisma": "^7.8.0",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.9",
