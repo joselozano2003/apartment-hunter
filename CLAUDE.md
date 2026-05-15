@@ -57,7 +57,6 @@ Key files:
 | `next.config.ts` | Image domains | `**.public.blob.vercel-storage.com` in remotePatterns |
 <!-- /KEY_FILES -->
 
-
 ---
 
 ## Patterns — follow these exactly
