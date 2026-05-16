@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { format, addWeeks, subWeeks, startOfWeek, addDays, isSameDay, parseISO, isToday } from 'date-fns'
+import { format, addWeeks, subWeeks, startOfWeek, addDays } from 'date-fns'
 import Link from 'next/link'
 import ViewingForm from '@/components/viewings/ViewingForm'
 import type { Viewing } from '@/types'
@@ -55,8 +55,9 @@ export default function CalendarPage() {
       {/* Week grid — all 7 days visible at once */}
       <div className="space-y-0">
         {weekDays.map((day, idx) => {
-          const dayViewings = viewings.filter(v => isSameDay(parseISO(v.date), day))
-          const today = isToday(day)
+          const dayStr = format(day, 'yyyy-MM-dd')
+          const dayViewings = viewings.filter(v => v.date === dayStr)
+          const today = dayStr === format(new Date(), 'yyyy-MM-dd')
           const isLast = idx === 6
 
           return (
