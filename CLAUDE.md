@@ -3,7 +3,7 @@
 # Project Brain
 
 > Maintained by `/sync`. Edit freely outside the marker blocks — those are auto-regenerated.
-> Last synced: <!-- LAST_SYNCED -->2026-05-15<!-- /LAST_SYNCED -->
+> Last synced: <!-- LAST_SYNCED -->2026-05-16<!-- /LAST_SYNCED -->
 
 ---
 
@@ -71,6 +71,8 @@ Key files:
 - TestMockPrismaSingleton: Mock `@/lib/prisma` using `mockDeep<PrismaClient>()` from jest-mock-extended. Helper in `__tests__/helpers/prisma-mock.ts`.
 - ShadcnInitFlags: Always init with `--style default --base-color slate` — CLI defaults to `base-nova` which breaks the Radix UI API.
 - VercelBlobPublicStore: Always create the Blob store with public access. Private stores can't be converted; `lib/blob.ts` always passes `{ access: 'public' }` to `put()`.
+- DateFnsV4StringComparison: date-fns v4 `parseISO` on date-only strings returns midnight UTC, not local. Never use `parseISO`+`isSameDay`/`isToday` for date comparisons — compare `format(day, 'yyyy-MM-dd')` strings directly.
+- NextjsStalePrismaCache: After any Prisma schema column rename/add, run `npx prisma generate` then `rm -rf .next` before restarting dev or deploying — stale chunks cause "column does not exist" even when migrations are applied.
 <!-- /PATTERNS -->
 
 ---

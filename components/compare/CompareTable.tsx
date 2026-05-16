@@ -42,18 +42,19 @@ export default function CompareTable({ apartments }: { apartments: ApartmentWith
     return (
       <TableHead
         onClick={() => handleSort(k)}
-        className={`cursor-pointer select-none text-right whitespace-nowrap font-bold ${
+        className={`cursor-pointer select-none text-right font-bold ${
           active ? 'text-[#FF385C]' : 'text-[#717171] hover:text-[#222222]'
         }`}
       >
-        {label} {active ? (sortDir === 'asc' ? '↑' : '↓') : <span className="opacity-40">↕</span>}
+        <span className="inline-flex items-center justify-end gap-0.5 whitespace-nowrap">{label} {active ? (sortDir === 'asc' ? '↑' : '↓') : <span className="opacity-40">↕</span>}</span>
       </TableHead>
     )
   }
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-[#EBEBEB] shadow-sm bg-white">
-      <Table>
+    <div className="rounded-2xl border border-[#EBEBEB] shadow-sm bg-white">
+      <Table className="table-fixed w-full">
+        <colgroup><col className="w-[13%]" /><col className="w-[13%]" /><col className="w-[9%]" /><col className="w-[9%]" /><col className="w-[8%]" /><col className="w-[10%]" /><col className="w-[7%]" /><col className="w-[7%]" /><col className="w-[8%]" /><col className="w-[7%]" /><col className="w-[9%]" /></colgroup>
         <TableHeader>
           <TableRow className="bg-[#F7F7F7] border-b border-[#EBEBEB]">
             <TableHead className="font-bold text-[#222222]">Unit</TableHead>
@@ -62,6 +63,10 @@ export default function CompareTable({ apartments }: { apartments: ApartmentWith
             <TableHead className="text-center font-bold text-[#222222]">Rooms</TableHead>
             <SortHead label="Sqft" k="sqft" />
             <SortHead label="Commute" k="commute_mins" />
+            <TableHead className="text-center font-bold text-[#222222]">Water</TableHead>
+            <TableHead className="text-center font-bold text-[#222222]">Elec.</TableHead>
+            <TableHead className="text-center font-bold text-[#222222]">Heating</TableHead>
+            <TableHead className="text-center font-bold text-[#222222]">Gym</TableHead>
             <SortHead label="Rating" k="rating" />
           </TableRow>
         </TableHeader>
@@ -96,6 +101,14 @@ export default function CompareTable({ apartments }: { apartments: ApartmentWith
                 <TableCell className="text-right text-[#717171]">
                   {apt.commute_mins ? `${apt.commute_mins} min` : <span className="text-[#AAAAAA]">—</span>}
                 </TableCell>
+                {([apt.includes_water, apt.includes_electricity, apt.includes_heating, apt.includes_gym] as (boolean | null)[]).map((val, i) => (
+                  <TableCell key={i} className="text-center">
+                    {val === null ? <span className="text-[#AAAAAA]">—</span> : val
+                      ? <span className="text-[#008A05] font-bold">✓</span>
+                      : <span className="text-[#FF385C] font-bold">✗</span>
+                    }
+                  </TableCell>
+                ))}
                 <TableCell className="text-right">
                   {apt.rating ? (
                     <div className="flex items-center justify-end gap-0.5">

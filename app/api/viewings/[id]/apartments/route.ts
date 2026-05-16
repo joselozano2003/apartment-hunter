@@ -22,7 +22,6 @@ export async function POST(request: Request, { params }: RouteContext) {
     bedrooms: body.bedrooms ?? null,
     bathrooms: body.bathrooms ?? null,
     sqft: body.sqft ?? null,
-    commute_mins: body.commute_mins ?? null,
     rating: body.rating ?? null,
     notes: body.notes ?? null,
   })

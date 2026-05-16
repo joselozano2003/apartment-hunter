@@ -94,7 +94,7 @@ describe('createViewing', () => {
     prismaMock.viewing.create.mockResolvedValueOnce(mockViewing({ title: 'Park Ave' }) as any)
     const result = await createViewing({
       title: 'Park Ave', date: '2026-05-22', start_time: '10:00',
-      end_time: null, address: '456 Park Ave', notes: 'Bring ID',
+      end_time: null, address: '456 Park Ave', notes: 'Bring ID', commute_mins: null,
     })
     expect(result.title).toBe('Park Ave')
     expect(typeof result.date).toBe('string')
@@ -123,7 +123,7 @@ describe('createApartment', () => {
     prismaMock.apartment.create.mockResolvedValueOnce(mockApartment() as any)
     const result = await createApartment({
       viewing_id: 'v1', unit_label: 'Unit 203', monthly_rent: 2500,
-      bedrooms: 2, bathrooms: 1, sqft: 850, commute_mins: 15, rating: 4, notes: 'Great light',
+      bedrooms: 2, bathrooms: 1, sqft: 850, rating: 4, notes: 'Great light',
     })
     expect(result.unit_label).toBe('Unit 203')
   })

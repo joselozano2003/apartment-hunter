@@ -31,6 +31,9 @@ export default async function ViewingDetailPage({ params }: { params: Promise<{ 
               {viewing.end_time ? ` – ${viewing.end_time.slice(0, 5)}` : ''}
             </p>
             <p className="text-sm text-[#717171] mt-0.5">📍 {viewing.address}</p>
+            {viewing.commute_mins && (
+              <p className="text-sm text-[#717171] mt-0.5">🚇 {viewing.commute_mins} min commute</p>
+            )}
           </div>
           {viewing.status === 'completed' && (
             <span className="shrink-0 text-xs font-semibold text-[#717171] bg-[#F7F7F7] border border-[#EBEBEB] rounded-full px-3 py-1">

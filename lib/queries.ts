@@ -19,6 +19,7 @@ function serializeViewing(v: PrismaViewing & { _count?: { apartments: number } }
     end_time: v.end_time ?? null,
     address: v.address,
     notes: v.notes ?? null,
+    commute_mins: v.commute_mins ?? null,
     status: v.status as ViewingStatus,
     created_at: toISOStr(v.created_at),
     apartment_count: apartmentCount ?? v._count?.apartments ?? 0,
@@ -34,9 +35,12 @@ function serializeApartment(a: PrismaApartment & { photos?: PrismaPhoto[] }): Ap
     bedrooms: a.bedrooms ?? null,
     bathrooms: a.bathrooms !== null && a.bathrooms !== undefined ? Number(a.bathrooms) : null,
     sqft: a.sqft ?? null,
-    commute_mins: a.commute_mins ?? null,
     rating: a.rating ?? null,
     notes: a.notes ?? null,
+    includes_water: a.includes_water ?? null,
+    includes_electricity: a.includes_electricity ?? null,
+    includes_heating: a.includes_heating ?? null,
+    includes_gym: a.includes_gym ?? null,
     created_at: toISOStr(a.created_at),
     photos: a.photos?.map(serializePhoto) ?? [],
   }
@@ -69,7 +73,7 @@ export async function getViewing(id: string): Promise<Viewing | null> {
 }
 
 export async function createViewing(data: {
-  title: string; date: string; start_time: string; end_time: string | null; address: string; notes: string | null
+  title: string; date: string; start_time: string; end_time: string | null; address: string; notes: string | null; commute_mins: number | null
 }): Promise<Viewing> {
   const v = await prisma.viewing.create({
     data: {
@@ -79,6 +83,7 @@ export async function createViewing(data: {
       end_time: data.end_time ?? null,
       address: data.address,
       notes: data.notes ?? null,
+      commute_mins: data.commute_mins ?? null,
     },
   })
   return serializeViewing(v)
@@ -109,7 +114,7 @@ export async function getApartmentsForViewing(viewingId: string): Promise<Apartm
 
 export async function createApartment(data: {
   viewing_id: string; unit_label: string; monthly_rent: number | null; bedrooms: number | null;
-  bathrooms: number | null; sqft: number | null; commute_mins: number | null; rating: number | null; notes: string | null
+  bathrooms: number | null; sqft: number | null; rating: number | null; notes: string | null
 }): Promise<Apartment> {
   const a = await prisma.apartment.create({ data })
   return serializeApartment(a)
@@ -161,5 +166,6 @@ export async function getAllApartmentsWithViewings(): Promise<ApartmentWithViewi
     viewing_title: a.viewing.title,
     viewing_date: toDateStr(a.viewing.date),
     viewing_address: a.viewing.address,
+    commute_mins: a.viewing.commute_mins ?? null,
   }))
 }

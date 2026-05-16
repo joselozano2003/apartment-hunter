@@ -19,6 +19,7 @@ export default function ViewingForm({ defaultDate, viewing, onClose, onSaved }: 
   const [endTime, setEndTime] = useState(viewing?.end_time?.slice(0, 5) ?? '')
   const [address, setAddress] = useState(viewing?.address ?? '')
   const [notes, setNotes] = useState(viewing?.notes ?? '')
+  const [commute, setCommute] = useState(viewing?.commute_mins?.toString() ?? '')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -42,6 +43,7 @@ export default function ViewingForm({ defaultDate, viewing, onClose, onSaved }: 
           end_time: endTime || null,
           address,
           notes: notes || null,
+          commute_mins: commute ? parseInt(commute) : null,
         }),
       })
       if (!res.ok) throw new Error('Failed to save')
@@ -123,6 +125,19 @@ export default function ViewingForm({ defaultDate, viewing, onClose, onSaved }: 
               onChange={e => setAddress(e.target.value)}
               placeholder="123 Main St, New York, NY"
               required
+              className="border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="commute">
+              Commute (minutes)
+            </label>
+            <Input
+              id="commute"
+              type="number"
+              value={commute}
+              onChange={e => setCommute(e.target.value)}
+              placeholder="20"
               className="border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl"
             />
           </div>

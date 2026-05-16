@@ -9,7 +9,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const body = await request.json()
-  const { title, date, start_time, end_time, address, notes } = body
+  const { title, date, start_time, end_time, address, notes, commute_mins } = body
 
   if (!date || !start_time || !address) {
     return NextResponse.json({ error: 'date, start_time, and address are required' }, { status: 400 })
@@ -23,6 +23,7 @@ export async function POST(request: Request) {
     end_time: end_time ?? null,
     address,
     notes: notes ?? null,
+    commute_mins: commute_mins ?? null,
   })
   return NextResponse.json(viewing, { status: 201 })
 }

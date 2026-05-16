@@ -19,9 +19,12 @@ export default function ApartmentForm({ viewingId, apartment, onClose, onSaved }
   const [bedrooms, setBedrooms] = useState(apartment?.bedrooms?.toString() ?? '')
   const [bathrooms, setBathrooms] = useState(apartment?.bathrooms?.toString() ?? '')
   const [sqft, setSqft] = useState(apartment?.sqft?.toString() ?? '')
-  const [commute, setCommute] = useState(apartment?.commute_mins?.toString() ?? '')
   const [rating, setRating] = useState<number | null>(apartment?.rating ?? null)
   const [notes, setNotes] = useState(apartment?.notes ?? '')
+  const [water, setWater] = useState<boolean | null>(apartment?.includes_water ?? null)
+  const [electricity, setElectricity] = useState<boolean | null>(apartment?.includes_electricity ?? null)
+  const [heating, setHeating] = useState<boolean | null>(apartment?.includes_heating ?? null)
+  const [gym, setGym] = useState<boolean | null>(apartment?.includes_gym ?? null)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -41,9 +44,12 @@ export default function ApartmentForm({ viewingId, apartment, onClose, onSaved }
           bedrooms: bedrooms ? parseInt(bedrooms) : null,
           bathrooms: bathrooms ? parseFloat(bathrooms) : null,
           sqft: sqft ? parseInt(sqft) : null,
-          commute_mins: commute ? parseInt(commute) : null,
           rating,
           notes: notes || null,
+          includes_water: water,
+          includes_electricity: electricity,
+          includes_heating: heating,
+          includes_gym: gym,
         }),
       })
       if (!res.ok) throw new Error('Failed to save')
@@ -105,14 +111,39 @@ export default function ApartmentForm({ viewingId, apartment, onClose, onSaved }
             </div>
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="commute">
-              Commute (minutes)
-            </label>
-            <Input id="commute" type="number" value={commute} onChange={e => setCommute(e.target.value)} placeholder="20" className={fieldClass} />
-          </div>
-          <div className="space-y-1.5">
             <label className="text-xs font-bold text-[#717171] uppercase tracking-wide">Rating</label>
             <StarRating value={rating} onChange={setRating} />
+          </div>
+          <div className="space-y-3">
+            <div className="text-xs font-bold text-[#717171] uppercase tracking-wide">Included in rent</div>
+            {([
+              ['Water', water, setWater],
+              ['Electricity', electricity, setElectricity],
+              ['Heating', heating, setHeating],
+              ['Gym', gym, setGym],
+            ] as [string, boolean | null, (v: boolean | null) => void][]).map(([label, val, setter]) => (
+              <div key={label} className="flex items-center justify-between">
+                <span className="text-sm text-[#222222] font-medium">{label}</span>
+                <div className="flex gap-1.5">
+                  {([['Yes', true], ['No', false]] as [string, boolean][]).map(([btnLabel, btnVal]) => (
+                    <button
+                      key={btnLabel}
+                      type="button"
+                      onClick={() => setter(val === btnVal ? null : btnVal)}
+                      className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors ${
+                        val === btnVal
+                          ? btnVal
+                            ? 'bg-[#008A05] border-[#008A05] text-white'
+                            : 'bg-[#FF385C] border-[#FF385C] text-white'
+                          : 'border-[#DDDDDD] text-[#717171] hover:border-[#222222]'
+                      }`}
+                    >
+                      {btnLabel}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="notes">

@@ -8,6 +8,7 @@ export interface Viewing {
   end_time: string | null
   address: string
   notes: string | null
+  commute_mins: number | null
   status: ViewingStatus
   created_at: string
   apartment_count?: number
@@ -21,9 +22,12 @@ export interface Apartment {
   bedrooms: number | null
   bathrooms: number | null
   sqft: number | null
-  commute_mins: number | null
   rating: number | null
   notes: string | null
+  includes_water: boolean | null
+  includes_electricity: boolean | null
+  includes_heating: boolean | null
+  includes_gym: boolean | null
   created_at: string
   photos?: Photo[]
 }
@@ -40,4 +44,5 @@ export interface ApartmentWithViewing extends Apartment {
   viewing_title: string
   viewing_date: string
   viewing_address: string
+  commute_mins: number | null
 }

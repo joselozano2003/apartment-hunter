@@ -63,13 +63,29 @@ export default async function ApartmentDetailPage({
             <div className="text-2xl font-bold text-[#222222]">{apt.sqft.toLocaleString()} <span className="text-base font-normal text-[#717171]">sqft</span></div>
           </div>
         )}
-        {apt.commute_mins && (
-          <div className="bg-white rounded-2xl border border-[#EBEBEB] p-4">
-            <div className="text-[10px] font-bold text-[#AAAAAA] uppercase tracking-widest mb-1">Commute</div>
-            <div className="text-2xl font-bold text-[#222222]">{apt.commute_mins} <span className="text-base font-normal text-[#717171]">min</span></div>
-          </div>
-        )}
       </div>
+
+      {/* Amenities */}
+      {(apt.includes_water !== null || apt.includes_electricity !== null || apt.includes_heating !== null || apt.includes_gym !== null) && (
+        <div className="bg-white rounded-2xl border border-[#EBEBEB] p-4 mb-4">
+          <div className="text-[10px] font-bold text-[#AAAAAA] uppercase tracking-widest mb-3">Included in rent</div>
+          <div className="grid grid-cols-2 gap-2">
+            {([
+              ['Water', apt.includes_water],
+              ['Electricity', apt.includes_electricity],
+              ['Heating', apt.includes_heating],
+              ['Gym', apt.includes_gym],
+            ] as [string, boolean | null][]).filter(([, v]) => v !== null).map(([label, val]) => (
+              <div key={label} className="flex items-center gap-2">
+                <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${val ? 'bg-[#EAFBEA] text-[#008A05]' : 'bg-[#FFF0F2] text-[#FF385C]'}`}>
+                  {val ? '✓' : '✗'}
+                </span>
+                <span className="text-sm text-[#222222]">{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Photo upload (when no photos yet) */}
       {(apt.photos?.length ?? 0) === 0 && (

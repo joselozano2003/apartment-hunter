@@ -13,8 +13,9 @@ model Viewing {
   start_time String      @db.VarChar(8)
   end_time   String?     @db.VarChar(8)
   address    String
-  notes      String?
-  status     String      @default("upcoming")
+  notes        String?
+  commute_mins Int?
+  status       String      @default("upcoming")
   created_at DateTime    @default(now()) @db.Timestamptz(6)
   apartments Apartment[]
 
@@ -29,9 +30,12 @@ model Apartment {
   bedrooms     Int?
   bathrooms    Decimal?  @db.Decimal(3, 1)
   sqft         Int?
-  commute_mins Int?
-  rating       Int?
-  notes        String?
+  rating               Int?
+  notes                String?
+  includes_water       Boolean?
+  includes_electricity Boolean?
+  includes_heating     Boolean?
+  includes_gym         Boolean?
   created_at   DateTime  @default(now()) @db.Timestamptz(6)
   viewing      Viewing   @relation(fields: [viewing_id], references: [id], onDelete: Cascade)
   photos       Photo[]
