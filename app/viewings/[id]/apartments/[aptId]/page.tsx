@@ -63,10 +63,10 @@ export default async function ApartmentDetailPage({
             <div className="text-2xl font-bold text-[#222222]">{apt.sqft.toLocaleString()} <span className="text-base font-normal text-[#717171]">sqft</span></div>
           </div>
         )}
-        {apt.commute_note && (
+        {apt.commute_mins && (
           <div className="bg-white rounded-2xl border border-[#EBEBEB] p-4">
             <div className="text-[10px] font-bold text-[#AAAAAA] uppercase tracking-widest mb-1">Commute</div>
-            <div className="text-sm font-semibold text-[#222222] leading-snug mt-0.5">{apt.commute_note}</div>
+            <div className="text-2xl font-bold text-[#222222]">{apt.commute_mins} <span className="text-base font-normal text-[#717171]">min</span></div>
           </div>
         )}
       </div>

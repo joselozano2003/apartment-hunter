@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/table'
 import type { ApartmentWithViewing } from '@/types'
 
-type SortKey = 'viewing_date' | 'monthly_rent' | 'sqft' | 'rating'
+type SortKey = 'viewing_date' | 'monthly_rent' | 'sqft' | 'rating' | 'commute_mins'
 type SortDir = 'asc' | 'desc'
 
 export default function CompareTable({ apartments }: { apartments: ApartmentWithViewing[] }) {
@@ -61,7 +61,7 @@ export default function CompareTable({ apartments }: { apartments: ApartmentWith
             <SortHead label="Rent" k="monthly_rent" />
             <TableHead className="text-center font-bold text-[#222222]">Rooms</TableHead>
             <SortHead label="Sqft" k="sqft" />
-            <TableHead className="font-bold text-[#222222]">Commute</TableHead>
+            <SortHead label="Commute" k="commute_mins" />
             <SortHead label="Rating" k="rating" />
           </TableRow>
         </TableHeader>
@@ -93,7 +93,9 @@ export default function CompareTable({ apartments }: { apartments: ApartmentWith
                   {apt.bedrooms ? `${apt.bedrooms}bd · ${apt.bathrooms}ba` : <span className="text-[#AAAAAA]">—</span>}
                 </TableCell>
                 <TableCell className="text-right text-[#717171]">{apt.sqft ?? <span className="text-[#AAAAAA]">—</span>}</TableCell>
-                <TableCell className="text-[#717171]">{apt.commute_note ?? <span className="text-[#AAAAAA]">—</span>}</TableCell>
+                <TableCell className="text-right text-[#717171]">
+                  {apt.commute_mins ? `${apt.commute_mins} min` : <span className="text-[#AAAAAA]">—</span>}
+                </TableCell>
                 <TableCell className="text-right">
                   {apt.rating ? (
                     <div className="flex items-center justify-end gap-0.5">

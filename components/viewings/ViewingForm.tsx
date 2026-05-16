@@ -73,7 +73,7 @@ export default function ViewingForm({ defaultDate, viewing, onClose, onSaved }: 
               className="border-[#DDDDDD] focus-visible:ring-[#FF385C] focus-visible:border-[#FF385C] rounded-xl"
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="date">
                 Date *

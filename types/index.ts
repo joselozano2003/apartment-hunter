@@ -21,7 +21,7 @@ export interface Apartment {
   bedrooms: number | null
   bathrooms: number | null
   sqft: number | null
-  commute_note: string | null
+  commute_mins: number | null
   rating: number | null
   notes: string | null
   created_at: string

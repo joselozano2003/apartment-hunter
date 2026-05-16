@@ -19,7 +19,7 @@ export default function ApartmentForm({ viewingId, apartment, onClose, onSaved }
   const [bedrooms, setBedrooms] = useState(apartment?.bedrooms?.toString() ?? '')
   const [bathrooms, setBathrooms] = useState(apartment?.bathrooms?.toString() ?? '')
   const [sqft, setSqft] = useState(apartment?.sqft?.toString() ?? '')
-  const [commute, setCommute] = useState(apartment?.commute_note ?? '')
+  const [commute, setCommute] = useState(apartment?.commute_mins?.toString() ?? '')
   const [rating, setRating] = useState<number | null>(apartment?.rating ?? null)
   const [notes, setNotes] = useState(apartment?.notes ?? '')
   const [saving, setSaving] = useState(false)
@@ -41,7 +41,7 @@ export default function ApartmentForm({ viewingId, apartment, onClose, onSaved }
           bedrooms: bedrooms ? parseInt(bedrooms) : null,
           bathrooms: bathrooms ? parseFloat(bathrooms) : null,
           sqft: sqft ? parseInt(sqft) : null,
-          commute_note: commute || null,
+          commute_mins: commute ? parseInt(commute) : null,
           rating,
           notes: notes || null,
         }),
@@ -106,9 +106,9 @@ export default function ApartmentForm({ viewingId, apartment, onClose, onSaved }
           </div>
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-[#717171] uppercase tracking-wide" htmlFor="commute">
-              Commute
+              Commute (minutes)
             </label>
-            <Input id="commute" value={commute} onChange={e => setCommute(e.target.value)} placeholder="15 min to office" className={fieldClass} />
+            <Input id="commute" type="number" value={commute} onChange={e => setCommute(e.target.value)} placeholder="20" className={fieldClass} />
           </div>
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-[#717171] uppercase tracking-wide">Rating</label>

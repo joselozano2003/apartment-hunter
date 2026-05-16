@@ -34,7 +34,7 @@ function serializeApartment(a: PrismaApartment & { photos?: PrismaPhoto[] }): Ap
     bedrooms: a.bedrooms ?? null,
     bathrooms: a.bathrooms !== null && a.bathrooms !== undefined ? Number(a.bathrooms) : null,
     sqft: a.sqft ?? null,
-    commute_note: a.commute_note ?? null,
+    commute_mins: a.commute_mins ?? null,
     rating: a.rating ?? null,
     notes: a.notes ?? null,
     created_at: toISOStr(a.created_at),
@@ -109,7 +109,7 @@ export async function getApartmentsForViewing(viewingId: string): Promise<Apartm
 
 export async function createApartment(data: {
   viewing_id: string; unit_label: string; monthly_rent: number | null; bedrooms: number | null;
-  bathrooms: number | null; sqft: number | null; commute_note: string | null; rating: number | null; notes: string | null
+  bathrooms: number | null; sqft: number | null; commute_mins: number | null; rating: number | null; notes: string | null
 }): Promise<Apartment> {
   const a = await prisma.apartment.create({ data })
   return serializeApartment(a)

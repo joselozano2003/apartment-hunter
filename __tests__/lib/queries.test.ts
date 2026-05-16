@@ -123,7 +123,7 @@ describe('createApartment', () => {
     prismaMock.apartment.create.mockResolvedValueOnce(mockApartment() as any)
     const result = await createApartment({
       viewing_id: 'v1', unit_label: 'Unit 203', monthly_rent: 2500,
-      bedrooms: 2, bathrooms: 1, sqft: 850, commute_note: '15 min', rating: 4, notes: 'Great light',
+      bedrooms: 2, bathrooms: 1, sqft: 850, commute_mins: 15, rating: 4, notes: 'Great light',
     })
     expect(result.unit_label).toBe('Unit 203')
   })
